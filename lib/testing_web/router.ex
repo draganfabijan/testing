@@ -1,6 +1,8 @@
 defmodule TestingWeb.Router do
   use TestingWeb, :router
   use Pow.Phoenix.Router
+  use Pow.Extension.Phoenix.Router,
+  extensions: [PowPersistentSession]
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -19,6 +21,7 @@ defmodule TestingWeb.Router do
     pipe_through :browser
 
     pow_routes()
+    pow_extension_routes
   end
 
   pipeline :api do
