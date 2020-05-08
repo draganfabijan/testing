@@ -20,8 +20,7 @@ defmodule TestingWeb.Router do
   scope "/" do
     pipe_through :browser
 
-    pow_routes()
-    pow_extension_routes
+    resources "/users", UserController
   end
 
   pipeline :api do

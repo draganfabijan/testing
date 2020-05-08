@@ -10,10 +10,6 @@ use Mix.Config
 config :testing,
   ecto_repos: [Testing.Repo]
 
-config :testing, :pow,
-  user: Testing.Users.User,
-  repo: Testing.Repo
-
 # Configures the endpoint
 config :testing, TestingWeb.Endpoint,
   url: [host: "localhost"],
