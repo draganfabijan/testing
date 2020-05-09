@@ -56,7 +56,7 @@ defmodule Testing.Accounts do
   """
   def create_user(attrs \\ %{}) do
     %User{}
-    |> User.changeset(%User{},attrs)
+    |> User.changeset(attrs)
     |> Ecto.Changeset.cast_assoc(:credential, with: &Credential.changeset/2)
     |> Repo.insert()
   end

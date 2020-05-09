@@ -15,9 +15,9 @@
 
   <div>
     <%= inputs_for f, :credential, fn cf -> %>
-      <%= label cf, :email %>
-+     <%= text_input cf, :email %>
-+     <%= error_tag cf, :email %>
+    <%= label cf, :email %>
+    <%= text_input cf, :email %>
+    <%= error_tag cf, :email %>
     <% end %>
   </div>
 

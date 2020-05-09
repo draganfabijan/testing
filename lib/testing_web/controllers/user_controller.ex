@@ -1,5 +1,5 @@
 defmodule TestingWeb.UserController do
-  require IEx
+  # require IEx
 
   use TestingWeb, :controller
   alias Testing.Accounts
@@ -18,8 +18,7 @@ defmodule TestingWeb.UserController do
 
   @spec create(Plug.Conn.t(), map) :: Plug.Conn.t()
   def create(conn, %{"user" => user_params}) do
-    # IO.puts user_params
-    IEx.pry
+    # IEx.pry
     case Accounts.create_user(user_params) do
       {:ok, user} ->
         conn
