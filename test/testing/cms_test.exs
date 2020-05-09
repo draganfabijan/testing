@@ -6,8 +6,8 @@ defmodule Testing.CMSTest do
   describe "pages" do
     alias Testing.CMS.Page
 
-    @valid_attrs %{body: "some body", title: "some title", views: 42}
-    @update_attrs %{body: "some updated body", title: "some updated title", views: 43}
+    @valid_attrs %{body: "some body", title: "some title"}
+    @update_attrs %{body: "some updated body", title: "some updated title"}
     @invalid_attrs %{body: nil, title: nil, views: nil}
 
     def page_fixture(attrs \\ %{}) do
@@ -33,7 +33,6 @@ defmodule Testing.CMSTest do
       assert {:ok, %Page{} = page} = CMS.create_page(@valid_attrs)
       assert page.body == "some body"
       assert page.title == "some title"
-      assert page.views == 42
     end
 
     test "create_page/1 with invalid data returns error changeset" do
@@ -45,7 +44,6 @@ defmodule Testing.CMSTest do
       assert {:ok, %Page{} = page} = CMS.update_page(page, @update_attrs)
       assert page.body == "some updated body"
       assert page.title == "some updated title"
-      assert page.views == 43
     end
 
     test "update_page/2 with invalid data returns error changeset" do

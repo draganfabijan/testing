@@ -5,7 +5,6 @@ defmodule Testing.CMS.Page do
   schema "pages" do
     field :body, :string
     field :title, :string
-    field :views, :integer
 
     timestamps()
   end
@@ -13,7 +12,7 @@ defmodule Testing.CMS.Page do
   @doc false
   def changeset(page, attrs) do
     page
-    |> cast(attrs, [:title, :body, :views])
-    |> validate_required([:title, :body, :views])
+    |> cast(attrs, [:title, :body])
+    |> validate_required([:title, :body])
   end
 end

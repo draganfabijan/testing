@@ -1,6 +1,6 @@
 defmodule TestingWeb.CMS.PageController do
   use TestingWeb, :controller
-
+  # require IEx
   alias Testing.CMS
   alias Testing.CMS.Page
 
@@ -15,6 +15,7 @@ defmodule TestingWeb.CMS.PageController do
   end
 
   def create(conn, %{"page" => page_params}) do
+    # IEx.pry
     case CMS.create_page(page_params) do
       {:ok, page} ->
         conn

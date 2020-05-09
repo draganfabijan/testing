@@ -13,8 +13,14 @@ defmodule TestingWeb.Router do
     plug :accepts, ["json"]
   end
 
+  # scope "/cms", TestingWeb.CMS, as: :cms do
+  #   pipe_through :browser
+  #   resources "/pages", PageController
+  # end
+
   scope "/cms", TestingWeb.CMS, as: :cms do
-    pipe_through :browser
+    pipe_through [:browser, :authenticate_user]
+
     resources "/pages", PageController
   end
 

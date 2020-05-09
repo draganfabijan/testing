@@ -12,11 +12,6 @@
     <%= @page.body %>
   </li>
 
-  <li>
-    <strong>Views:</strong>
-    <%= @page.views %>
-  </li>
-
 </ul>
 
 <span><%= link "Edit", to: Routes.cms_page_path(@conn, :edit, @page) %></span>

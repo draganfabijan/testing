@@ -5,7 +5,6 @@ defmodule Testing.Repo.Migrations.CreatePages do
     create table(:pages) do
       add :title, :string
       add :body, :text
-      add :views, :integer
 
       timestamps()
     end

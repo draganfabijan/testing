@@ -3,8 +3,8 @@ defmodule TestingWeb.CMS.PageControllerTest do
 
   alias Testing.CMS
 
-  @create_attrs %{body: "some body", title: "some title", views: 42}
-  @update_attrs %{body: "some updated body", title: "some updated title", views: 43}
+  @create_attrs %{body: "some body", title: "some title"}
+  @update_attrs %{body: "some updated body", title: "some updated title"}
   @invalid_attrs %{body: nil, title: nil, views: nil}
 
   def fixture(:page) do
