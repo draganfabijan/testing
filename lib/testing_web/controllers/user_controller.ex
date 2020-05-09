@@ -1,6 +1,7 @@
 defmodule TestingWeb.UserController do
-  use TestingWeb, :controller
+  require IEx
 
+  use TestingWeb, :controller
   alias Testing.Accounts
   alias Testing.Accounts.User
 
@@ -9,12 +10,16 @@ defmodule TestingWeb.UserController do
     render(conn, "index.html", users: users)
   end
 
+  @spec new(Plug.Conn.t(), any) :: Plug.Conn.t()
   def new(conn, _params) do
     changeset = Accounts.change_user(%User{})
     render(conn, "new.html", changeset: changeset)
   end
 
+  @spec create(Plug.Conn.t(), map) :: Plug.Conn.t()
   def create(conn, %{"user" => user_params}) do
+    # IO.puts user_params
+    IEx.pry
     case Accounts.create_user(user_params) do
       {:ok, user} ->
         conn
@@ -50,6 +55,7 @@ defmodule TestingWeb.UserController do
         render(conn, "edit.html", user: user, changeset: changeset)
     end
   end
+
 
   def delete(conn, %{"id" => id}) do
     user = Accounts.get_user!(id)

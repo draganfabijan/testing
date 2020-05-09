@@ -6,8 +6,9 @@ defmodule Testing.Accounts do
   import Ecto.Query, warn: false
   alias Testing.Repo
 
-  alias Testing.Accounts.User
+  alias Testing.Accounts.{User, Credential}
 
+  @spec list_users :: nil | [%{optional(atom) => any}] | %{optional(atom) => any}
   @doc """
   Returns the list of users.
 
@@ -18,9 +19,7 @@ defmodule Testing.Accounts do
 
   """
   def list_users do
-    User
-    |> Repo.all
-    |> Repo.preload(:credential)
+    User |> Repo.all |> Repo.preload(:credential)
   end
 
   @doc """
@@ -57,7 +56,8 @@ defmodule Testing.Accounts do
   """
   def create_user(attrs \\ %{}) do
     %User{}
-    |> User.changeset(attrs)
+    |> User.changeset(%User{},attrs)
+    |> Ecto.Changeset.cast_assoc(:credential, with: &Credential.changeset/2)
     |> Repo.insert()
   end
 
@@ -76,6 +76,7 @@ defmodule Testing.Accounts do
   def update_user(%User{} = user, attrs) do
     user
     |> User.changeset(attrs)
+    |> Ecto.Changeset.cast_assoc(:credential, with: &Credential.changeset/2)
     |> Repo.update()
   end
 
@@ -203,4 +204,17 @@ defmodule Testing.Accounts do
   def change_credential(%Credential{} = credential, attrs \\ %{}) do
     Credential.changeset(credential, attrs)
   end
+
+  def authenticate_by_email_password(email, _password) do
+    query =
+      from u in User,
+        inner_join: c in assoc(u, :credential),
+        where: c.email == ^email
+
+    case Repo.one(query) do
+      %User{} = user -> {:ok, user}
+      nil -> {:error, :unauthorized}
+    end
+  end
+
 end
