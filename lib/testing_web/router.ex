@@ -1,8 +1,5 @@
 defmodule TestingWeb.Router do
   use TestingWeb, :router
-  use Pow.Phoenix.Router
-  use Pow.Extension.Phoenix.Router,
-  extensions: [PowPersistentSession]
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -12,33 +9,45 @@ defmodule TestingWeb.Router do
     plug :put_secure_browser_headers
   end
 
-  pipeline :protected do
-    plug Pow.Plug.RequireAuthenticated,
-      error_handler: Pow.Phoenix.PlugErrorHandler
-  end
-
-  scope "/" do
-    pipe_through :browser
-
-    pow_routes()
-    pow_extension_routes
-  end
-
   pipeline :api do
     plug :accepts, ["json"]
+  end
+
+  # scope "/cms", TestingWeb.CMS, as: :cms do
+  #   pipe_through :browser
+  #   resources "/pages", PageController
+  # end
+
+  scope "/cms", TestingWeb.CMS, as: :cms do
+    pipe_through [:browser, :authenticate_user]
+
+    resources "/pages", PageController
   end
 
   scope "/", TestingWeb do
     pipe_through :browser
 
-    get "/", PageController, :index
+    get "/", UserController, :index
+    resources "/users", UserController
+    resources "/sessions", SessionController, only: [:new, :create, :delete],
+                                              singleton: true
   end
-
 
   # Other scopes may use custom stacks.
   # scope "/api", TestingWeb do
   #   pipe_through :api
   # end
+  defp authenticate_user(conn, _) do
+    case get_session(conn, :user_id) do
+      nil ->
+        conn
+        |> Phoenix.Controller.put_flash(:error, "Login required")
+        |> Phoenix.Controller.redirect(to: "/")
+        |> halt()
+      user_id ->
+        assign(conn, :current_user, Testing.Accounts.get_user!(user_id))
+    end
+  end
 
   # Enables LiveDashboard only for development
   #
